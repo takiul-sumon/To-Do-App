@@ -7,12 +7,11 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
       title: 'Flutter Demo',
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: MyHomePage(title: 'Flutter Demo Home Page'),
     );
   }
 }
@@ -27,6 +26,14 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  TextEditingController mycontroller = TextEditingController();
+  String? mycontrol;
+  String? notes;
+  List<String> priorityList = ['Low', 'Medium', 'High'];
+  String currentValue = 'Low'; // Make currentValue a state variable
+  List<String>? mainTitle = ['ABC', 'acb'];
+  List<String> mainPriority = ['Low', 'High'];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -38,32 +45,79 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       body: Center(
         child: Column(
-          // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        
           children: [
-            Spacer(flex: 1),
-            Text('Nothing is added'),
-            Spacer(flex: 1),
+            const Spacer(flex: 1),
+            const Text('Nothing is added'),
+            const Spacer(flex: 1),
+            ListView.builder(
+              shrinkWrap: true,
+              itemCount: mainTitle!.length,
+              itemBuilder: (context, index) {
+                return ListTile(
+                  title: Text(mainTitle![index]),
+                  subtitle: Text(mainPriority[index]),
+                );
+              },
+            ),
             ElevatedButton(
-              child:  Icon(Icons.add),
+              child: const Icon(Icons.add),
               onPressed: () {
                 showModalBottomSheet(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return SizedBox(
-                        height: 600,
-                        width: double.infinity,
-                        child: Column(children: [
-                          TextField(decoration: InputDecoration(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return SizedBox(
+                      height: 600,
+                      width: double.infinity,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(16.0),
+                            child: TextField(
+                              decoration: InputDecoration(
                                 hintText: 'Enter your text here',
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(20.0),
                                 ),
-                              ),),
-                            const  Text('Select Priority'),
-                        ],),
-                      );
-                    });
+                              ),
+                              controller: mycontroller,
+                            ),
+                          ),
+                          const SizedBox(height: 20),
+                          const Text('Select Priority'),
+                          const SizedBox(height: 10),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: priorityList.map((priority) {
+                              return Row(
+                                children: [
+                                  Radio<String>(
+                                    value: priority,
+                                    groupValue: currentValue,
+                                    onChanged: (value) {
+                                      setState(() {
+                                        currentValue = value!;
+                                      });
+                                    },
+                                  ),
+                                  Text(priority),
+                                ],
+                              );
+                            }).toList(),
+                          ),
+                          ElevatedButton(
+                              onPressed: () {
+                                setState(() {
+                                  mainTitle!.add(mycontroller.toString());
+                                  mainPriority.add(currentValue);
+                                });
+                              },
+                              child: Text('Add'))
+                        ],
+                      ),
+                    );
+                  },
+                );
               },
             )
           ],
