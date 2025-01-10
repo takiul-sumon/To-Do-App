@@ -31,8 +31,8 @@ class _MyHomePageState extends State<MyHomePage> {
   String? notes;
   List<String> priorityList = ['Low', 'Medium', 'High'];
   String currentValue = 'Low'; // Make currentValue a state variable
-  List<String>? mainTitle = ['ABC', 'acb'];
-  List<String> mainPriority = ['Low', 'High'];
+  List<String>? mainTitle = [];
+  List<String> mainPriority = [];
 
   @override
   Widget build(BuildContext context) {
@@ -81,6 +81,9 @@ class _MyHomePageState extends State<MyHomePage> {
                                 ),
                               ),
                               controller: mycontroller,
+                              onTap: () {
+                                mycontroller.clear();
+                              },
                             ),
                           ),
                           const SizedBox(height: 20),
@@ -107,8 +110,9 @@ class _MyHomePageState extends State<MyHomePage> {
                           ),
                           ElevatedButton(
                               onPressed: () {
+                                Navigator.pop(context);
                                 setState(() {
-                                  mainTitle!.add(mycontroller.toString());
+                                  mainTitle!.add(mycontroller.text);
                                   mainPriority.add(currentValue);
                                 });
                               },
