@@ -46,19 +46,20 @@ class _MyHomePageState extends State<MyHomePage> {
       body: Center(
         child: Column(
           children: [
-            const Spacer(flex: 1),
-            const Text('Nothing is added'),
-            const Spacer(flex: 1),
-            ListView.builder(
-              shrinkWrap: true,
-              itemCount: mainTitle!.length,
-              itemBuilder: (context, index) {
-                return ListTile(
-                  title: Text(mainTitle![index]),
-                  subtitle: Text(mainPriority[index]),
-                );
-              },
-            ),
+            // const Spacer(flex: 1),
+            mainTitle!.isEmpty == true
+                ? const Text('Nothing is added')
+                : ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: mainTitle!.length,
+                    itemBuilder: (context, index) {
+                      return ListTile(
+                        title: Text(mainTitle![index],style: TextStyle(fontSize: 20,fontWeight: FontWeight.w600 ),),
+                        subtitle: Text(mainPriority[index],style: TextStyle(fontSize: 15,fontWeight: FontWeight.bold)),
+                      );
+                    },
+                  ),
+                  const Spacer(flex: 1),
             ElevatedButton(
               child: const Icon(Icons.add),
               onPressed: () {
