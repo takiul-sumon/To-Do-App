@@ -1,10 +1,21 @@
 import 'package:flutter/material.dart';
 
 class ChangeManager extends ChangeNotifier {
-  int _value = 0;
-  int get value => _value;
-  changeValue(value) {
-    value = _value;
+  String currentValue = 'Low';
+  List<String> mainTitle = [];
+  List<String> mainPriority = [];
+
+  void updateValue(String title) {
+    mainTitle.add(title);
+    mainPriority.add(currentValue);
+    notifyListeners();
+    print(mainTitle);
+    print(currentValue);
+  }
+
+  updateCurrentValue(String value) {
+    currentValue = value;
+    mainPriority.add(value);
     notifyListeners();
   }
 }
