@@ -13,7 +13,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
       create: (context) => ChangeManager(),
-      child:  MaterialApp(
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
         title: 'Flutter Demo',
         home: MyHomePage(title: 'Flutter Demo Home Page'),
       ),
@@ -22,7 +23,7 @@ class MyApp extends StatelessWidget {
 }
 
 class MyHomePage extends StatelessWidget {
-   MyHomePage({super.key, required this.title});
+  MyHomePage({super.key, required this.title});
 
   final String title;
 
@@ -57,11 +58,62 @@ class MyHomePage extends StatelessWidget {
                         return ListTile(
                           title: Text(
                             changevalue.mainTitle[index],
-                            style: TextStyle(
+                            style: const TextStyle(
                                 fontSize: 20, fontWeight: FontWeight.w600),
                           ),
+                          leading: IconButton(
+                            onPressed: () {
+                              // Set the current text in the controller
+                              changevalue.mycontroller.text =
+                                  changevalue.mainTitle[index];
+
+                              // Show the bottom sheet for editing
+                              showModalBottomSheet(
+                                context: context,
+                                builder: (context) => Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: SizedBox(
+                                    height: 300,
+                                    child: Column(
+                                      children: [
+                                        TextFormField(
+                                          decoration: InputDecoration(
+                                            hintText: 'Enter your text here',
+                                            border: OutlineInputBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(20.0),
+                                            ),
+                                          ),
+                                          controller: changevalue.mycontroller,
+                                        ),
+                                        ElevatedButton(
+                                          onPressed: () {
+                                            // Update the title using the provider
+                                            changevalue.updateMainTitle(
+                                              index,
+                                              changevalue.mycontroller.text,
+                                            );
+
+                                            // Close the bottom sheet
+                                            Navigator.pop(context);
+                                          },
+                                          child: const Text('Update Value'),
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              );
+                            },
+                            icon: const Icon(Icons.edit),
+                          ),
+                          trailing: IconButton(
+                              onPressed: () {
+                                changevalue.deleteValue();
+                              },
+                              icon: const Icon(Icons.delete)),
                           subtitle: Text(changevalue.mainPriority[index],
-                              style: TextStyle(
+                              style: const TextStyle(
                                   fontSize: 15, fontWeight: FontWeight.bold)),
                         );
                       },
@@ -81,7 +133,7 @@ class MyHomePage extends StatelessWidget {
                           children: [
                             Padding(
                               padding: const EdgeInsets.all(16.0),
-                              child: TextField(
+                              child: TextFormField(
                                 decoration: InputDecoration(
                                   hintText: 'Enter your text here',
                                   border: OutlineInputBorder(
@@ -119,7 +171,7 @@ class MyHomePage extends StatelessWidget {
                                   Navigator.pop(context);
                                   changevalue.updateValue(mycontroller.text);
                                 },
-                                child: Text('Add'))
+                                child: const Text('Add'))
                           ],
                         ),
                       );
