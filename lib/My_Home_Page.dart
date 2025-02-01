@@ -9,7 +9,7 @@ class MyHomePage extends StatelessWidget {
 
   final TextEditingController mycontroller = TextEditingController();
 
-  final List<String> priorityList = ['Low', 'Medium', 'High'];
+  
 
   @override
   Widget build(BuildContext context) {
@@ -124,22 +124,24 @@ class MyHomePage extends StatelessWidget {
                             const SizedBox(height: 20),
                             const Text('Select Priority'),
                             const SizedBox(height: 10),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: priorityList.map((priority) {
-                                return Row(
-                                  children: [
-                                    Radio<String>(
-                                      value: priority,
-                                      groupValue: changevalue.currentValue,
-                                      onChanged: (value) {
-                                        changevalue.updateCurrentValue(value!);
-                                      },
-                                    ),
-                                    Text(priority),
-                                  ],
-                                );
-                              }).toList(),
+                            Consumer<ChangeManager>(builder: (context, value, child) => 
+                               Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: value.priorityList.map((priority) {
+                                  return Row(
+                                    children: [
+                                      Radio<String>(
+                                        value: priority,
+                                        groupValue: value.currentValue,
+                                        onChanged: (value) {
+                                          changevalue.updateCurrentValue(value!);
+                                        },
+                                      ),
+                                      Text(priority),
+                                    ],
+                                  );
+                                }).toList(),
+                              ),
                             ),
                             ElevatedButton(
                                 onPressed: () {

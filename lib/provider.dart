@@ -5,6 +5,8 @@ class ChangeManager extends ChangeNotifier {
   List<String> mainTitle = [];
   List<String> mainPriority = [];
   TextEditingController mycontroller = TextEditingController();
+
+  final List<String> priorityList = ['Low', 'Medium', 'High'];
   
 
   void updateValue(String title) {
