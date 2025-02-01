@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 
 class ChangeManager extends ChangeNotifier {
   String currentValue = 'Low';
-  List<String> mainTitle = ['ABCd'];
-  List<String> mainPriority = ['low'];
+  List<String> mainTitle = [];
+  List<String> mainPriority = [];
   TextEditingController mycontroller = TextEditingController();
   
 
