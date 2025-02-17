@@ -13,8 +13,6 @@ class ChangeManager extends ChangeNotifier {
     mainTitle.add(title);
     mainPriority.add(currentValue);
     notifyListeners();
-    print(mainTitle);
-    print(currentValue);
   }
 
   updateCurrentValue(String value) {
@@ -23,8 +21,8 @@ class ChangeManager extends ChangeNotifier {
     notifyListeners();
   }
 
-  deleteValue() {
-    mainTitle.removeLast();
+  deleteValue(int index) {
+    mainTitle.removeAt(index);
     notifyListeners();
   }
   
